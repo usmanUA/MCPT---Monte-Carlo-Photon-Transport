@@ -1,6 +1,6 @@
 # Photon Transport Simulation using Monte Carlo Method
 
-This project implements a Monte Carlo algorithm in C++ to simulate the transport of photons through various materials. It models the interactions of photons as they scatter, lose energy, and possibly get absorbed within the medium, providing detailed insights into the trajectory and energy deposition of particles.
+This project implements a Monte Carlo algorithm in C++ to simulate the transport of photons through water. It models the interactions of photons as they scatter, lose energy, and possibly get absorbed within the medium, providing detailed insights into the trajectory and energy deposition of particles.
 
 ## Project Overview
 
