@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Types.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: uahmed <uahmed@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 10:27:13 by uahmed            #+#    #+#             */
-/*   Updated: 2024/10/08 11:49:16 by uahmed           ###   ########.fr       */
+/*   Created: 2024/10/09 21:02:49 by uahmed            #+#    #+#             */
+/*   Updated: 2024/10/09 21:43:25 by uahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SimulationManager.hpp"
+#include <map>
+using namespace std;
+# define alive true
+# define m_c2 511
+# define pi 3.14
 
-readData( std::string filename );
 
-int	main( void )
+struct	EnergyKey
 {
-	std::string filename("water_attenuation.csv");
-	std::map<EnergyKey, std::vector<float>> table;
-	table = readData(filename);
-	SimulationManager	manager	= SimulationManager();
-}
+	float energy;
+	bool operator<(EnergyKey& other) {
+		return energy < other.energy;// && std::fabs(energy - other.energy) > 1e-6;
+	}
+};
+
+using t_map = map<const string, map<string, float> >;

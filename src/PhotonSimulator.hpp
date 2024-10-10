@@ -6,31 +6,33 @@
 /*   By: uahmed <uahmed@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 20:45:14 by uahmed            #+#    #+#             */
-/*   Updated: 2024/10/08 14:01:11 by uahmed           ###   ########.fr       */
+/*   Updated: 2024/10/09 21:07:37 by uahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+
+#include "Types.hpp"
 #include "Photon.hpp"
 #include <map>
 #include <vector>
 
-# define alive true
 
 class	PhotonSimulator
 {
 	public:
 		// NOTE: Canonical Form
-		PhotonSimulator( Position&, Direction&, float& , std::map<float, std::vector<float>>& );
+		PhotonSimulator( Position&, Direction&, float& , t_map& );
 		~PhotonSimulator( void );
 		PhotonSimulator( const PhotonSimulator& );
 		PhotonSimulator&	operator=( const PhotonSimulator& );
 
 		void	simulate( void );
 		void	updatePhotonPosition( const float& );
-		void	updatePhotonDirection( const Direction& );
+		void	updatePhotonDirection( const float& theta, const float& phi );
 		void	updatePhotonEnergy( const float& );
 	private:
-		Photon photon;
-		std::map<float, std::vector<float>>& table;
-		std::vector<float> coefficients;
+		Photon* photon;
+		t_map& table;
+		vector<float> coefficients;
 };
