@@ -10,14 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SimulationManager.hpp"
+#include "SimulationManager.hpp"
 
-readData( std::string filename );
+
+t_map readData( std::string filename );
 
 int	main( void )
 {
 	std::string filename("water_attenuation.csv");
-	std::map<EnergyKey, std::vector<float>> table;
+	t_map table;
 	table = readData(filename);
-	SimulationManager	manager	= SimulationManager();
+	for (auto row : table)
+	{
+		cout << row.first.energy << "\n";
+	}
+	SimulationManager	manager	= SimulationManager( 1, table );
 }

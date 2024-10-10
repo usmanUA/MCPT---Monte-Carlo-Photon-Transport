@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME        :=  materia
+NAME        :=  photon
 ERRTXT      :=  error.txt
 OBJSDIR     :=  build
 INCSDIR	    :=	include
@@ -27,11 +27,10 @@ SCREENCLR   :=  printf "\033c"
 SLEEP       :=  sleep .1
 
 SOURCES     :=  main.cpp \
-		AMateria.cpp \
-		Ice.cpp \
-		Cure.cpp \
-		Character.cpp \
-		MateriaSource.cpp \
+		FileParser.cpp \
+		SimulationManager.cpp \
+		PhotonSimulator.cpp \
+		Photon.cpp \
 
 SRCS        :=  $(foreach file, $(SOURCES), $(shell find $(SRCSDIR) -name $(file)))
 OBJS        :=  $(patsubst $(SRCSDIR)/%.cpp, $(OBJSDIR)/%.o, $(SRCS))

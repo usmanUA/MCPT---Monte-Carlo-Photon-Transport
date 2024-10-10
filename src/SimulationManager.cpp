@@ -22,10 +22,10 @@ void SimulationManager::initSimulators( void )
 {
 	Position pos {0, 0, 0};
 	Direction dir {1, 0, 0};
-
+	float	e = 0.001;
 	for (int i = 0; i < N; i++)
 	{
-		this->simulators.push_back(std::make_unique<PhotonSimulator>(pos, dir, 0.0001, table));
+		this->simulators.push_back(std::make_unique<PhotonSimulator>(pos, dir, e, this->table));
 	}
 }
 

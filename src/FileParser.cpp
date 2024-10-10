@@ -24,7 +24,7 @@
 
 t_map readData( std::string filename )
 {
-	map<EnergyKey, vector<float>> table;
+	t_map table;
 	ifstream	file(filename);
 	string	line;
 	string	value;
@@ -35,10 +35,13 @@ t_map readData( std::string filename )
 		exit(1);
 	}
 	vector<float> temp_vals;
+	std::getline(file,line);
 	while (std::getline(file,line))
 	{
+		//cout << "before inner loop\n";
 		std::stringstream row(line);
 		while (std::getline(row, value, ',')) {
+			//cout << "value from file" << value << "\n";
 			try {
 				float val = std::stof(value);
 				temp_vals.push_back(val);
@@ -46,13 +49,14 @@ t_map readData( std::string filename )
 				std::cout << e.what() << "\n";
 			}
 		}
-		EnergyKey e = {temp_vals[0]};
-		std::vector<float> coefficients;
-		coefficients.push_back(temp_vals[1]);
-		coefficients.push_back(temp_vals[2]);
-		coefficients.push_back(temp_vals[3]);
+		/*string key = to_string(temp_vals[0]);*/
+		EnergyKey key = {temp_vals[0]};
+		map<string, float> coefficients;
+		coefficients["u_photo"] = temp_vals[1];
+		coefficients["u_comp"] = temp_vals[2];
+		coefficients["u_pair"] = temp_vals[3];
 		temp_vals.clear();
-		table[e] = coefficients;
+		table[key] = coefficients;
 	}
 	return table;
 }

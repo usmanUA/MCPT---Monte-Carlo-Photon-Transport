@@ -10,7 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
+
 #include <map>
+#include <cmath>
+#include <string>
+#include <iostream>
 using namespace std;
 # define alive true
 # define m_c2 511
@@ -20,9 +25,9 @@ using namespace std;
 struct	EnergyKey
 {
 	float energy;
-	bool operator<(EnergyKey& other) {
-		return energy < other.energy;// && std::fabs(energy - other.energy) > 1e-6;
+	bool operator<(const EnergyKey& other) const {
+		return energy < other.energy && fabs(energy - other.energy) > 1e-6;
 	}
 };
 
-using t_map = map<const string, map<string, float> >;
+using t_map = map<EnergyKey, map<string, float> >;

@@ -19,10 +19,11 @@
 class	SimulationManager
 {
 	public:
+		//SimulationManager( void );
 		SimulationManager( int, t_map& );
-		~SimulationManager( void ) = delete;
-		SimulationManager( const SimulationManager& ) = delete;
-		SimulationManager&	operator=( const SimulationManager& ) = delete;
+		//~SimulationManager( void );
+		/*SimulationManager( const SimulationManager& ) = delete;*/
+		/*SimulationManager&	operator=( const SimulationManager& ) = delete;*/
 
 		void initSimulators( void );
 		void	manageSimulations( void );

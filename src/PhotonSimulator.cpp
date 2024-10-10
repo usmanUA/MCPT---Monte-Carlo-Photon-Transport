@@ -12,16 +12,18 @@
 
 #include "PhotonSimulator.hpp"
 #include "Photon.hpp"
+#include "Types.hpp"
 #include <cmath>
 #include <random>
+#include <string>
 
-PhotonSimulator::PhotonSimulator( Position& pos, Direction& dir, float& e, t_map& table)
+PhotonSimulator::PhotonSimulator( Position& pos, Direction& dir, float& e, t_map& table) : table(table)
 {
-	this->table = table;
 	this->photon = new Photon( pos, dir, e );
-	this->coefficients.push_back(table[e][0]);
-	this->coefficients.push_back(table[e][1]);
-	this->coefficients.push_back(table[e][2]);
+	EnergyKey e_key = {e};
+	this->coefficients["u_photo"] = table[e_key]["u_photo"];
+	this->coefficients["u_comp"] = table[e_key]["u_comp"];
+	this->coefficients["u_pair"] = table[e_key]["u_pair"];
 }
 
 PhotonSimulator::~PhotonSimulator( void )
@@ -29,30 +31,30 @@ PhotonSimulator::~PhotonSimulator( void )
 	delete this->photon;
 }
 
-PhotonSimulator::PhotonSimulator( const PhotonSimulator& from ) : table(from.table)
-{
-	if (this != &from)
-	{
-		this->photon = from.photon;
-		this->table = from.table;
-		this->coefficients[0] = from.coefficients[0];
-		this->coefficients[1] = from.coefficients[1];
-		this->coefficients[2] = from.coefficients[2];
-	}
-}
-
-PhotonSimulator& PhotonSimulator::operator=( const PhotonSimulator& from )
-{
-	if (this != &from)
-	{
-		this->photon = from.photon;
-		this->table = from.table;
-		this->coefficients[0] = from.coefficients[0];
-		this->coefficients[1] = from.coefficients[1];
-		this->coefficients[2] = from.coefficients[2];
-	}
-	return *this;
-}
+/*PhotonSimulator::PhotonSimulator( const PhotonSimulator& from ) : table(from.table)*/
+/*{*/
+/*	if (this != &from)*/
+/*	{*/
+/*		this->photon = from.photon;*/
+/*		this->table = from.table;*/
+/*		this->coefficients["u_photo"] = from.coefficients["u_photo"];*/
+/*		this->coefficients["u_comp"] = from.coefficients["u_comp"];*/
+/*		this->coefficients["u_pair"] = from.coefficients["u_pair"];*/
+/*	}*/
+/*}*/
+/**/
+/*PhotonSimulator& PhotonSimulator::operator=( const PhotonSimulator& from )*/
+/*{*/
+/*	if (this != &from)*/
+/*	{*/
+/*		this->photon = from.photon;*/
+/*		this->table = from.table;*/
+/*		this->coefficients["u_photo"] = from.coefficients["u_photo"];*/
+/*		this->coefficients["u_comp"] = from.coefficients["u_comp"];*/
+/*		this->coefficients["u_pair"] = from.coefficients["u_pair"];*/
+/*	}*/
+/*	return *this;*/
+/*}*/
 
 void	PhotonSimulator::simulate( void )
 {
@@ -68,9 +70,10 @@ void	PhotonSimulator::simulate( void )
 	{
 		R = dis(gen);
 		R2 = dis(gen);
-		float u_photo = this->table[this->photon->getEnergy()][0];
-		float u_comp = this->table[this->photon->getEnergy()][1];
-		float u_pair = this->table[this->photon->getEnergy()][2];
+		EnergyKey e = {this->photon->getEnergy()};
+		float u_photo = this->table[e]["u_photo"];
+		float u_comp = this->table[e]["u_comp"];
+		float u_pair = this->table[e]["u_pair"];
 		total_attenuation = u_photo + u_comp + u_pair;
 		double lambda = 1.0 / total_attenuation;
 		double s = -lambda * std::log(R);

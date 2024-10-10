@@ -15,17 +15,16 @@
 #include "Types.hpp"
 #include "Photon.hpp"
 #include <map>
-#include <vector>
-
 
 class	PhotonSimulator
 {
 	public:
 		// NOTE: Canonical Form
+		PhotonSimulator( void );
 		PhotonSimulator( Position&, Direction&, float& , t_map& );
 		~PhotonSimulator( void );
-		PhotonSimulator( const PhotonSimulator& );
-		PhotonSimulator&	operator=( const PhotonSimulator& );
+		/*PhotonSimulator( const PhotonSimulator& );*/
+		/*PhotonSimulator&	operator=( const PhotonSimulator& );*/
 
 		void	simulate( void );
 		void	updatePhotonPosition( const float& );
@@ -34,5 +33,5 @@ class	PhotonSimulator
 	private:
 		Photon* photon;
 		t_map& table;
-		vector<float> coefficients;
+		map<string, float> coefficients;
 };
