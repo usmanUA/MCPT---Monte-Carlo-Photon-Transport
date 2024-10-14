@@ -22,20 +22,25 @@ AR          :=  ar -rcs
 CC          :=  c++
 CFLAGS      :=  -Wall -Werror -Wextra -std=c++17
 DEBUGFLAGS  :=  -g -fsanitize=address
+RAYLIBINCS  := -I "/opt/homebrew/Cellar/raylib/5.0/include"
+RAYLIBFLAGS := -L "/opt/homebrew/Cellar/raylib/5.0/lib"
+RAYLIBFLAGS += -lraylib -framework CoreVideo -framework IOKit -framework Cocoa -framework GLUT -framework OpenGL
 DEPFLAGS    :=  -c -MT $$@ -MMD -MP -MF $(DEPSDIR)/$$*.d
 SCREENCLR   :=  printf "\033c"
 SLEEP       :=  sleep .1
 
+RAYLIB	    :=	
 SOURCES     :=  main.cpp \
 		FileParser.cpp \
-		SimulationManager.cpp \
-		PhotonSimulator.cpp \
 		Photon.cpp \
+		PhotonSimulator.cpp \
+		SimulationManager.cpp \
 
 SRCS        :=  $(foreach file, $(SOURCES), $(shell find $(SRCSDIR) -name $(file)))
 OBJS        :=  $(patsubst $(SRCSDIR)/%.cpp, $(OBJSDIR)/%.o, $(SRCS))
 DEPS        :=  $(patsubst $(SRCSDIR)/%.cpp, $(DEPSDIR)/%.d, $(SRCS))
 INCS	    :=	$(foreach header, $(INCSDIR), -I $(header))
+INCS	    :=	$(RAYLIBINCS)
 
 F           =   =====================================
 B           =   \033[1m
@@ -50,7 +55,7 @@ vpath %.cpp $(SRCSDIR)
 
 define cc_cmd
 $(OBJSDIR)/%.o: %.cpp | $(OBJSDIR) $(DEPSDIR)
-	@if ! $(CC) $(INCS) $(DEPFLAGS) $$< -o $$@ 2> $(ERRTXT); then \
+	@if ! $(CC) $(CFLAGS) $(INCS) $(DEPFLAGS) $$< -o $$@ 2> $(ERRTXT); then \
 		printf "$(R)$(B)\nERROR!\n$(F)$(T)\n"; \
 		printf "$(V)Unable to create object file:$(T)\n\n"; \
 		printf "$(R)$(B)$$@$(T)\n"; \
@@ -64,7 +69,7 @@ endef
 all: title $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -o $@ $^
+	@$(CC) $(CFLAGS) $(INCS) $(RAYLIBFLAGS) -o $@ $^
 	@make finish
 
 debug: CFLAGS += $(DEBUGFLAGS)

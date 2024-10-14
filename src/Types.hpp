@@ -16,6 +16,7 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <GLUT/glut.h>
 using namespace std;
 # define alive true
 # define m_c2 511

@@ -14,10 +14,11 @@
 #include "Photon.hpp"
 #include "Types.hpp"
 #include <cmath>
+#include <cstdlib>
 #include <random>
 #include <string>
 
-PhotonSimulator::PhotonSimulator( Position& pos, Direction& dir, float& e, t_map& table) : table(table)
+PhotonSimulator::PhotonSimulator( Vector3& pos, Vector3& dir, float& e, t_map& table) : table(table)
 {
 	this->photon = new Photon( pos, dir, e );
 	EnergyKey e_key = {e};
@@ -65,15 +66,18 @@ void	PhotonSimulator::simulate( void )
 	float	R2;
 	float	epsi;
 	float	total_attenuation;
+	bool	isAlive = true;
 
-	while (alive)
+	while (isAlive)
 	{
 		R = dis(gen);
 		R2 = dis(gen);
+		cout << "R2: " << R2 << "\n";
 		EnergyKey e = {this->photon->getEnergy()};
 		float u_photo = this->table[e]["u_photo"];
 		float u_comp = this->table[e]["u_comp"];
 		float u_pair = this->table[e]["u_pair"];
+		cout << "u_photo: " << u_photo << " u_comp: " << u_comp << " and u_pair: " << u_pair << "\n";
 		total_attenuation = u_photo + u_comp + u_pair;
 		double lambda = 1.0 / total_attenuation;
 		double s = -lambda * std::log(R);
@@ -81,13 +85,20 @@ void	PhotonSimulator::simulate( void )
 		// TODO: I guess here comes the graphical part
 		float p_photo = u_photo / total_attenuation;
 		float p_comp = (u_photo + u_comp) / total_attenuation;
+//		cout << "u_photo: " << u_photo << " tot_atte: " << total_attenuation << " and p_photo: " << p_photo << "\n";
 		if (R2 < p_photo) {
 			this->photon->setEnergy(0);
+			isAlive = false;
+			cout << "SHIED\n";
 		}
 		else if (R2 >= p_comp) {
 			this->photon->setEnergy(0);
+			isAlive = false;
+			cout << "DIED\n";
 		}
 		else if (R2 <= p_photo && R2 < p_comp) {
+			cout << "MATCHED\n";
+			exit(1);
 			epsi = dis(gen);
 			float phi_rand = dis(gen);
 			float phi = 2 * pi * phi_rand;
@@ -98,32 +109,38 @@ void	PhotonSimulator::simulate( void )
 			updatePhotonEnergy( currE );
 			updatePhotonDirection(theta, phi);
 		}
+		cout << "NOT any if got true\n";
 	}
 }
 
 void	PhotonSimulator::updatePhotonPosition( const float& s )
 {
-	Position	newpos;
-	Position	pos = this->photon->getPosition();
-	Direction	dir = this->photon->getDirection();
-	newpos.x = pos.x + s * dir.u;
-	newpos.y = pos.y + s * dir.v;
-	newpos.z = pos.z + s * dir.w;
+	Vector3	newpos;
+	Vector3&	pos = this->photon->getPosition();
+	Vector3&	dir = this->photon->getDirection();
+	newpos.x = pos.x + s * dir.x;
+	newpos.y = pos.y + s * dir.y;
+	newpos.z = pos.z + s * dir.z;
 
 	this->photon->setPosition( newpos );
 }
 
 void	PhotonSimulator::updatePhotonDirection( const float& theta, const float& phi )
 {
-	Direction	newdir;
+	Vector3	newdir;
 
-	newdir.u = std::cos(theta) * std::sin(phi);
-	newdir.v = std::sin(theta) * std::sin(phi);
-	newdir.w = std::cos(phi);
+	newdir.x = cos(theta) * sin(phi);
+	newdir.y = sin(theta) * sin(phi);
+	newdir.z = cos(phi);
 	this->photon->setDirection( newdir );
 }
 
 void	PhotonSimulator::updatePhotonEnergy( const float& newE )
 {
 	this->photon->setEnergy( newE );
+}
+
+Vector3&	PhotonSimulator::getDirection( void )
+{
+	return this->photon->getDirection();
 }

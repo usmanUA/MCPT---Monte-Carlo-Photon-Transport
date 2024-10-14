@@ -12,36 +12,44 @@
 
 #pragma once
 
-// NOTE: A struct to represent the position of the photon
-struct	Position {
-	float x, y, z;
-};
+#include <vector>
+#include <unistd.h>
+#include "raylib.h"
+// // NOTE: A struct to represent the position of the photon
+// struct	Position {
+// 	float x, y, z;
+// };
 
-// NOTE: A struct to represent the direction vector of the photon
-struct	Direction {
-	float u, v, w;
-};
+// // NOTE: A struct to represent the direction vector of the photon
+// struct	Direction {
+// 	float u, v, w;
+// };
+
+// struct	Vector3
+// {
+// 	float x, y, z;
+// };
 
 class	Photon
 {
 	private:
-		Position	coords;
-		Direction	dir;
+		Vector3	position;
+		Vector3	direction;
 		float		energy;
 
 	public:
 		// NOTE: Canonical Form
 		Photon( void );
-		Photon( Position&, Direction&, float& );
+		Photon( Vector3&, Vector3&, float& );
 		~Photon( void );
 		Photon( Photon& );
 		Photon&	operator=( const Photon& );
 
 		// NOTE: Getter and Setters
-		Position&	getPosition( void );
-		void	setPosition( const Position& );
-		Direction&	getDirection( void );
-		void	setDirection( const Direction& );
+		Vector3&	getPosition( void );
+		void	setPosition( const Vector3& );
+		Vector3&	getDirection( void );
+		void	setDirection( const Vector3& );
 		float&	getEnergy( void );
 		void	setEnergy( const float& );
 

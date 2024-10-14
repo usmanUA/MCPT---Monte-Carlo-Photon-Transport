@@ -21,7 +21,7 @@ class	PhotonSimulator
 	public:
 		// NOTE: Canonical Form
 		PhotonSimulator( void );
-		PhotonSimulator( Position&, Direction&, float& , t_map& );
+		PhotonSimulator( Vector3&, Vector3&, float& , t_map& );
 		~PhotonSimulator( void );
 		/*PhotonSimulator( const PhotonSimulator& );*/
 		/*PhotonSimulator&	operator=( const PhotonSimulator& );*/
@@ -30,6 +30,7 @@ class	PhotonSimulator
 		void	updatePhotonPosition( const float& );
 		void	updatePhotonDirection( const float& theta, const float& phi );
 		void	updatePhotonEnergy( const float& );
+		Vector3&	getDirection( void );
 	private:
 		Photon* photon;
 		t_map& table;

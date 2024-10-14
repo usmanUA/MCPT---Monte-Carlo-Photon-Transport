@@ -31,5 +31,5 @@ class	SimulationManager
 	private:
 		int	N;
 		t_map&	table;
-		std::vector<std::unique_ptr<PhotonSimulator>>	simulators;
+		vector<unique_ptr<PhotonSimulator> >	simulators;
 };

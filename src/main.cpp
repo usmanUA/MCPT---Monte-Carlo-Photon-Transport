@@ -20,9 +20,11 @@ int	main( void )
 	std::string filename("water_attenuation.csv");
 	t_map table;
 	table = readData(filename);
-	for (auto row : table)
-	{
-		cout << row.first.energy << "\n";
-	}
-	SimulationManager	manager	= SimulationManager( 1, table );
+	// for (auto row : table)
+	// {
+	// 	cout << row.first.energy << "\n";
+	// }
+	SimulationManager	manager	= SimulationManager( 3, table );
+	manager.initSimulators();
+	manager.manageSimulations();
 }

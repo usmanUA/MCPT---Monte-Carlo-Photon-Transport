@@ -16,7 +16,7 @@ Photon::Photon( void )
 {
 };
 
-Photon::Photon( Position& pos, Direction& dir, float& e ) : coords(pos), dir(dir), energy(e)
+Photon::Photon( Vector3& pos, Vector3& dir, float& e ) : position(pos), direction(dir), energy(e)
 {};
 
 Photon::~Photon( void )
@@ -27,8 +27,8 @@ Photon::~Photon( void )
 Photon::Photon( Photon& photon )
 {
 	if (this != &photon) {
-		setPosition(photon.coords);
-		setDirection(photon.dir);
+		setPosition(photon.position);
+		setDirection(photon.direction);
 		setEnergy(photon.energy);
 	}
 }
@@ -37,25 +37,34 @@ Photon&	Photon::operator=( const Photon& photon )
 {
 	if (this != &photon)
 	{
-		setPosition(photon.coords);
-		setDirection(photon.dir);
+		setPosition(photon.position);
+		setDirection(photon.direction);
 		setEnergy(photon.energy);
 	}
 	return *this;
 }
 
-void	Photon::setPosition( const Position& pos )
+void	Photon::setPosition( const Vector3& pos )
 {
-	this->coords.x = pos.x;
-	this->coords.y = pos.y;
-	this->coords.z = pos.z;
+	this->position.x = pos.x;
+	this->position.y = pos.y;
+	this->position.z = pos.z;
 }
 
-void	Photon::setDirection( const Direction& dir )
+Vector3&	Photon::getPosition( void )
 {
-	this->dir.u = dir.u;
-	this->dir.v = dir.v;
-	this->dir.w = dir.w;
+	return this->position;
+}
+void	Photon::setDirection( const Vector3& dir )
+{
+	this->direction.x = dir.x;
+	this->direction.y = dir.y;
+	this->direction.z = dir.z;
+}
+
+Vector3&	Photon::getDirection( void )
+{
+	return this->direction;
 }
 
 void	Photon::setEnergy( const float& e )
@@ -63,3 +72,7 @@ void	Photon::setEnergy( const float& e )
 	this->energy = e;
 }
 
+float&	Photon::getEnergy( void )
+{
+	return this->energy;
+}
